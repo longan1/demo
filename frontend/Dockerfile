@@ -1,18 +1,12 @@
-# Use the official Node.js image
-FROM node:16
+FROM node:alpine
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /usr/app
 
-# Install app dependencies
-COPY package.json /usr/src/app/
+COPY package.json .
 RUN npm install
 
-# Bundle app source
-COPY . /usr/src/app
+RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
 
+COPY . .
 
-# Expose port 3000 and start Nuxt.js server
-EXPOSE 3000
-CMD [ "npm", "run", "dev" ]
+CMD ["npm", "run", "dev"]
