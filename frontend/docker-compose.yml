@@ -1,0 +1,12 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: "."
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/node_modules
+    ports:
+      - "3000:3000"
+      - "24678:24678"
+    restart: always
