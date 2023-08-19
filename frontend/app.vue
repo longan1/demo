@@ -4,7 +4,7 @@
   </div>
 </template>
 <script setup lang="ts">
-      const result = useFetch('http://api.localhost.com/api', {
+      const result = useFetch('http://localhost:8080/api', {
         lazy: true,
         server: false
       })
