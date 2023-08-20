@@ -3,8 +3,14 @@ services:
   php-fpm:
     build:
       context: "."
+      dockerfile: Dockerfile
     volumes:
       - .:/var/www/html
+      - ./client:/var/www/html/client
+      - /var/www/html/client/node_modules
+    ports:
+      - "3000:3000"
+      - "24678:24678"
     networks:
       - laravel
   mysql:

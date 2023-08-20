@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
+use App\Trait\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 
-class ProductController extends BaseController
+class ProductController extends Controller
 {
+    use ApiResponseTrait;
     //
     /**
      * Display a listing of the resource.
@@ -20,7 +22,7 @@ class ProductController extends BaseController
     {
         $products = Product::all();
         
-        return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully.');
+        return $this->successResponse(ProductResource::collection($products), 'Products retrieved successfully.');
     }
     /**
      * Store a newly created resource in storage.
@@ -38,12 +40,12 @@ class ProductController extends BaseController
         ]);
        
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->validateErrorResponse('Validation Error.', $validator->errors());       
         }
        
         $product = Product::create($input);
        
-        return $this->sendResponse(new ProductResource($product), 'Product created successfully.');
+        return $this->successResponse(new ProductResource($product), 'Product created successfully.');
     } 
      
     /**
