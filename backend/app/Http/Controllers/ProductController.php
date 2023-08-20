@@ -2,27 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
+use App\Services\ProductService;
 use App\Trait\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
     use ApiResponseTrait;
+    private $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
     //
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $products = Product::all();
-        
-        return $this->successResponse(ProductResource::collection($products), 'Products retrieved successfully.');
+        $user = Auth::user();
+        $products = $this->productService->getProducts($user->id,$request->all());
+        return $this->successResponse($products, 'Products retrieved successfully.');
     }
     /**
      * Store a newly created resource in storage.

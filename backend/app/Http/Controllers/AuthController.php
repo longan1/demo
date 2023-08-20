@@ -6,44 +6,46 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Models\User;
+use App\Services\UserService;
 use App\Trait\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
-
+use Illuminate\Support\Facades\Request;
 class AuthController extends Controller
 {
     use ApiResponseTrait;
-    //
+    private $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+    
     public function register(RegisterRequest $request): JsonResponse
     {
-     
         $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $newUser = User::create($input);
-        $responeUser['token'] =  $newUser->createToken(config("app.name"))->accessToken;
-        $responeUser['name'] =  $newUser->name;
-   
-        return $this->successResponse($responeUser, 'User register successfully.');
+        $user = $this->userService->create($input);
+        return $this->successResponse($user, 'User register successfully.');      
     }
      
-    /**
-     * Login api
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function login(LoginRequest $request): JsonResponse
     {
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
-            $user = Auth::user(); 
-            $responeUser['token'] =  $user->createToken(config("app.name"))->accessToken; 
-            $responeUser['name'] =  $user->name;
-   
+       $email = $request->email;
+       $password = $request->password;
+        if($this->userService->isVaildAuthentication($email, $password)){ 
+            $responeUser['token'] =  $this->userService->getTokenUser(); 
             return $this->successResponse($responeUser, 'User login successfully.');
         } 
-        else{ 
-            return $this->unauthorizedResponse();
-        } 
+        return $this->unauthorizedResponse();
     }
+
+    public function logout(Request $request){
+        $isLogout = $this->userService->revokeToken();
+        if($isLogout)
+        {
+            return $this->successResponse([], 'User logout successfully.'); 
+        }
+        return $this->unauthorizedResponse();
+    }
+
 }

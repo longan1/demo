@@ -8,6 +8,7 @@ export default defineNuxtConfig({
       },
     },
   },
+  
   runtimeConfig: {
     // The private keys which are only available server-side
     apiSecret: process.env.API_BASE_URL,

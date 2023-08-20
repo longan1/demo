@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <h1>
-     nguoi hay  anh di a
-    </h1>
-  </div>
+    <NuxtLayout>
+       <NuxtPage />
+    </NuxtLayout>
 </template>
 <script setup lang="ts">
-     const result = useMyFetch('/api',{
-        server : false
-     });
-     console.log(result);
+    //  const result = useMyFetch('/',{
+    //     server : false
+    //  });
+    //  console.log(result);
 </script>
