@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
 use App\Services\ProductService;
@@ -27,10 +27,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $products = $this->productService->getProducts($user->id,$request->all());
+        $products = $this->productService->fillterProduct($user->id,$request->all());
         return $this->successResponse($products, 'Products retrieved successfully.');
     }
     /**
@@ -39,22 +39,13 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request): JsonResponse
+    public function store(ProductRequest $request)
     {
         $input = $request->all();
        
-        $validator = Validator::make($input, [
-            'name' => 'required',
-            'detail' => 'required'
-        ]);
+        $product = $this->productService->create($input);
        
-        if($validator->fails()){
-            return $this->validateErrorResponse('Validation Error.', $validator->errors());       
-        }
-       
-        $product = Product::create($input);
-       
-        return $this->successResponse(new ProductResource($product), 'Product created successfully.');
+        return $this->successResponse($product, 'Product created successfully.');
     } 
      
     /**
@@ -63,15 +54,14 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id): JsonResponse
+    public function show($id)
     {
-        $product = Product::find($id);
-      
+        $product = $this->productService->getProductById($id);
         if (is_null($product)) {
-            return $this->sendError('Product not found.');
+            return $this->notFoundResponse('Product not found.');
         }
-       
-        return $this->sendResponse(new ProductResource($product), 'Product retrieved successfully.');
+        $this->authorize('view', $product);
+        return $this->successResponse($product, 'Product retrieved successfully.');
     }
       
     /**
@@ -81,24 +71,13 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product): JsonResponse
+    public function update(ProductRequest $request, Product $product)
     {
+        $this->authorize('update', $product);
         $input = $request->all();
+        $this->productService->update($product,$input);
        
-        $validator = Validator::make($input, [
-            'name' => 'required',
-            'detail' => 'required'
-        ]);
-       
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
-        }
-       
-        $product->name = $input['name'];
-        $product->detail = $input['detail'];
-        $product->save();
-       
-        return $this->sendResponse(new ProductResource($product), 'Product updated successfully.');
+        return $this->successResponse($product, 'Product updated successfully.');
     }
      
     /**
@@ -107,10 +86,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product): JsonResponse
+    public function destroy(Product $product)
     {
-        $product->delete();
-       
-        return $this->sendResponse([], 'Product deleted successfully.');
+        $this->authorize('delete', $product);
+        $this->productService->delete($product);
+        return $this->successResponse([], 'Product deleted successfully.');
     }
 }

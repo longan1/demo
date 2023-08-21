@@ -20,9 +20,21 @@ class Controller extends BaseController
     {
         $routeCollection = Route::getRoutes()->getRoutesByName();
         $apiRoutes = [];
+
         foreach ($routeCollection as $routeName => $route) {
             if (strpos($route->uri(), 'api/') === 0) {
-                $apiRoutes[] = $route->uri();
+                $apiRoute = [
+                    'uri' => $route->uri(),
+                    'method' => implode('|', $route->methods()),
+                    'parameters' => []
+                ];
+
+                // Extract route parameters
+                foreach ($route->parameterNames() as $paramName) {
+                    $apiRoute['parameters'][] = $paramName;
+                }
+
+                $apiRoutes[] = $apiRoute;
             }
         }
         return $this->successResponse($apiRoutes,'Get Path Succsess!');

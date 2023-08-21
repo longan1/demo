@@ -24,6 +24,10 @@ Route::get('/', [Controller::class, 'getAllPath']);
 
 Route::middleware('auth:api')->group( function () {
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::resource('products', ProductController::class);
-    Route::resource('stores', StoreController::class);
+    Route::resource('products', ProductController::class)->except([
+        'create'
+    ]);
+    Route::resource('stores', StoreController::class)->except([
+        'create'
+    ]);
 });

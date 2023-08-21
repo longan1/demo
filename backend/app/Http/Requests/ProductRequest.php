@@ -4,9 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends BaseRequest
+class ProductRequest extends BaseRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,7 +14,10 @@ class StoreRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'store_name' => 'required|string|min:30|max:255',
+            //
+            'store_id' => 'required|exists:stores,id,user_id,' . auth()->id(),
+            'name' => 'required|string|min:30|max:255',
+            'price' => 'required|integer|min:10|max:1000',
         ];
     }
 }

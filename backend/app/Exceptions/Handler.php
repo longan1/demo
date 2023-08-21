@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Trait\ApiResponseTrait;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -31,10 +32,14 @@ class Handler extends ExceptionHandler
     }
     public function render($request, Throwable $exception)
     {
+ 
         if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
             return $this->notFoundResponse();
         }
 
+        if ($exception instanceof AuthorizationException) {
+            return $this->unauthorizedResponse();
+        }
         // if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException && $exception->getStatusCode() === 500) {
         //     return $this->serverException($details = $exception->getMessage());
         // }
@@ -43,6 +48,6 @@ class Handler extends ExceptionHandler
         //     return response()->json("Service Unavailable", 503);
         // }
 
-        return parent::render($request, $exception);
+        return $this->serverException($details = $exception->getMessage());
     }
 }

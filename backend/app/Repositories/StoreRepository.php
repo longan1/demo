@@ -11,4 +11,22 @@ class StoreRepository extends BaseRepository
     {
         return Store::class;
     }
+
+
+    public function fillterStore($userId, $keyword, $perPage) {
+        
+
+        $query = $this->model->query();
+
+        $query->whereHas('user', function ($query) use ($userId) {
+            $query->where('id', $userId);
+        });
+        
+        if(!empty($keyword))
+        {
+            $query->where('store_name', 'like', '%'.$keyword.'%');
+        }
+
+        return $query->paginate($perPage);
+    }
 }

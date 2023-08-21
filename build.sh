@@ -15,9 +15,22 @@ if [ ! -f .env ]; then
 fi
 cd ../
 # Run docker-compose up for the backend
-docker-compose up 
+docker-compose up -d php-fpm mysql
 
+echo "hihi"
 
+docker-compose exec php-fpm composer update
+docker-compose exec php-fpm php artisan key:generate
+docker-compose exec php-fpm php artisan config:cache
+docker-compose exec php-fpm php artisan migrate
+docker-compose exec php-fpm php artisan passport:install --force
+docker-compose exec php-fpm php artisan db:seed --class=DumpData
+docker-compose exec php-fpm bash -c "cd ./client && npm install"
 
+echo "build done"
 
+# start nginx
+docker-compose up -d nginx
 
+# start frontend
+docker-compose exec php-fpm bash -c "cd ./client && npm run dev"
