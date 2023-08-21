@@ -33,7 +33,7 @@ Please authorize if request permission
 
 -http://localhost:8080 for the backend
 
--http://localhost:8080 for the frontend
+-http://localhost:3000 for the frontend
 
 ### Example usage
 
