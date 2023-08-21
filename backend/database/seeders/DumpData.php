@@ -28,7 +28,8 @@ class DumpData extends Seeder
         DB::table('stores')->truncate();
         DB::table('products')->truncate();
         DB::beginTransaction();
-       
+        
+        
         try {
              // create 5 user
             for ($i=0; $i < 5; $i++) { 
@@ -40,6 +41,16 @@ class DumpData extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
+                if($i == 4)
+                {
+                    $userInput = [
+                        'name' => 'example',
+                        'email' => 'example@gmail.com',
+                        'password' => "123123",
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
                 $user = $userRepo->create($userInput);
                 //create accesstoken
                 $user->createToken(config("app.name"))->accessToken;
