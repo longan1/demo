@@ -17,6 +17,7 @@ class ProductRequest extends BaseRequest
             //
             'store_id' => 'required|exists:stores,id,user_id,' . auth()->id(),
             'name' => 'required|string|min:30|max:255',
+            'detail' => 'required|string|max:255',
             'price' => 'required|integer|min:10|max:1000',
         ];
     }
