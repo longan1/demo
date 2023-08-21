@@ -34,3 +34,4 @@ docker-compose up -d nginx
 
 # start frontend
 docker-compose exec php-fpm bash -c "cd ./client && npm run dev"
+echo "Feel free in http://localhost:3000"
