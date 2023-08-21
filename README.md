@@ -53,4 +53,4 @@ Please authorize if request permission
 
 -Add your key-value for another api
 
--For example: Key:store_name , Value: The demo store (If you don't know the required field names, just click the "Try It" button, and it will prompt you for the necessary fields if have)
+-For example: Key:store_name , Value: The demo store (If you don't know the required field names, just click the "Try API" button, and it will prompt you for the necessary fields if have)
