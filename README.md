@@ -1,6 +1,6 @@
-# Dockerized Laravel Backend and Nuxt.js Frontend
+# Demo Project
 
-This repository provides a Dockerized setup for a Laravel backend and Nuxt.js frontend application.
+This repository provides  Laravel backend api and Nuxt.js frontend application.
 
 ## Setup and Usage
 
@@ -17,4 +17,13 @@ Clone this repository using Git:
 
 ```bash
 git clone https://github.com/longan1/demo.git
-cd demo
+```
+### Build project
+
+Please authorize if request permission
+
+```bash
+ cd ./demo
+ ./build.sh
+```
+
