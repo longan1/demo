@@ -40,8 +40,10 @@ Please authorize if request permission
 ![Main](https://i.imgur.com/9VxCm6S.png)
 
 -Demo account : 
-+email : example@gmail.com
-+password: 123123
+
+-email : example@gmail.com
+
+-password: 123123
 
 ![Demo Login](https://i.imgur.com/mqEiROy.png)
 
