@@ -24,6 +24,13 @@ Please authorize if request permission
 
 ```bash
  cd ./demo
- ./build.sh
+```
+```bash
+  ./build.sh
 ```
 
+After the build is completed, your application will run on 2 ports:
+http://localhost:8080 for the backend
+http://localhost:8080 for the frontend
+
+### Example usage
