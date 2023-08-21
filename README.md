@@ -34,3 +34,5 @@ http://localhost:8080 for the backend
 http://localhost:8080 for the frontend
 
 ### Example usage
+
+![Main](https://i.imgur.com/9VxCm6S.png)
