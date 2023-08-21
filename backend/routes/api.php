@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+
 
 Route::get('/', [Controller::class, 'getAllPath']);
-
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 Route::middleware('auth:api')->group( function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::resource('products', ProductController::class)->except([

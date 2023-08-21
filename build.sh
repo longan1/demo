@@ -21,11 +21,13 @@ echo "hihi"
 
 docker-compose exec php-fpm composer update
 docker-compose exec php-fpm php artisan key:generate
-docker-compose exec php-fpm php artisan config:cache
+
 docker-compose exec php-fpm php artisan migrate
 docker-compose exec php-fpm php artisan passport:install --force
 docker-compose exec php-fpm php artisan db:seed --class=DumpData
 docker-compose exec php-fpm bash -c "cd ./client && npm install"
+docker-compose exec php-fpm php artisan config:cache
+docker-compose exec php-fpm php artisan route:cache
 
 echo "build done"
 
