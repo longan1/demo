@@ -1,7 +1,6 @@
-# Demo Project
+# MTK-CORPORATE-SITE
+-This project is for sending emails
 
--This repository provides  Laravel backend api and Nuxt.js frontend application.
--The frontend will function as a Swagger.
 ## Setup and Usage
 
 To get started with the Dockerized applications, follow these steps:
@@ -16,41 +15,36 @@ To get started with the Dockerized applications, follow these steps:
 Clone this repository using Git:
 
 ```bash
-git clone https://github.com/longan1/demo.git
+git clone https://vand.backlog.com/git/MTK_TENANT_SITE_DEV_PJ/MTK-CORPORATE-SITE.git
 ```
 ### Build project
+Run docker compose
 
-Please authorize if request permission
-
-```bash
- cd ./demo
+```bash 
+  docker compose up 
 ```
-```bash
-  ./build.sh
+Exec to container
+```bash 
+  docker compose exec app bash 
 ```
-
--After the build is completed, your application will run on 2 ports:
-
--http://localhost:8080 for the backend
-
--http://localhost:3000 for the frontend
-
-### Example usage
-
-![Main](https://i.imgur.com/9VxCm6S.png)
-
--Demo account : 
-
--email : example@gmail.com
-
--password: 123123
-
-![Demo Login](https://i.imgur.com/mqEiROy.png)
-
--Click Authentication to login
-![Demo Barrer Token](https://i.imgur.com/sO2ruC5.png)
-
-
--Add your key-value for another api
-
--For example: Key:store_name , Value: The demo store (If you don't know the required field names, just click the "Try API" button, and it will prompt you for the necessary fields if have)
+Install composer
+```bash 
+  composer install 
+```
+Migrate database
+```bash 
+  php artisan migrate 
+```
+Change .env
+```bash 
+    MAIL_MAILER=
+    MAIL_HOST=
+    MAIL_PORT=
+    MAIL_USERNAME=
+    MAIL_PASSWORD=
+    MAIL_ENCRYPTION=
+    MAIL_FROM_NAME=""
+    MAIL_SUBJECT=''
+    CONTACT_MAIL_FROM=""
+    CONTACT_MAIL_TO=""
+```
